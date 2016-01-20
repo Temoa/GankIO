@@ -2,7 +2,7 @@ package com.temoa.bellezza.view;
 
 import java.util.List;
 
-public interface MainView {
+public interface IMainView {
 
     void showProgress();
 
@@ -11,4 +11,6 @@ public interface MainView {
     void getItem(List<String> item);
 
     void showToast(String str);
+
+    void toWebActivity(String url);
 }

@@ -1,5 +1,6 @@
-package com.temoa.bellezza.ui;
+package com.temoa.bellezza.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,16 +12,15 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.temoa.bellezza.R;
-import com.temoa.bellezza.presenter.MainPresenter;
-import com.temoa.bellezza.presenter.MainPresenterImpl;
-import com.temoa.bellezza.view.MainView;
+import com.temoa.bellezza.presenter.MainViewPresenter;
+import com.temoa.bellezza.view.IMainView;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MainView, AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements IMainView, AdapterView.OnItemClickListener {
 
     @Bind(R.id.listView)
     ListView listView;
@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
     ProgressBar progressBar;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    private MainPresenter mainPresenter;
+
+    private MainViewPresenter mainViewPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,25 +39,25 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.write));
         listView.setOnItemClickListener(this);
-        mainPresenter = new MainPresenterImpl(this);
+        mainViewPresenter = new MainViewPresenter(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mainPresenter.onResume();
+        mainViewPresenter.onResume();
     }
 
     @Override
     protected void onDestroy() {
         ButterKnife.unbind(this);
-        mainPresenter.onDestroy();
+        mainViewPresenter.onDestroy();
         super.onDestroy();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mainPresenter.onItemClick(position);
+        mainViewPresenter.onItemClick(position);
     }
 
     @Override
@@ -77,5 +78,13 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
     @Override
     public void showToast(String str) {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void toWebActivity(String url) {
+        Intent intent = new Intent();
+        intent.setClass(this,WebActivity.class);
+        intent.putExtra("url",url);
+        startActivity(intent);
     }
 }
