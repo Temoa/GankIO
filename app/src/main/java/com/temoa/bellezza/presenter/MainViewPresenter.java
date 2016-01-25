@@ -1,8 +1,7 @@
 package com.temoa.bellezza.presenter;
 
 import com.temoa.bellezza.listener.OnFinishedListener;
-import com.temoa.bellezza.model.GankTipsData;
-import com.temoa.bellezza.model.IGankTipsData;
+import com.temoa.bellezza.model.GankAPIService;
 import com.temoa.bellezza.view.IMainView;
 
 import java.util.List;
@@ -10,18 +9,18 @@ import java.util.List;
 public class MainViewPresenter implements OnFinishedListener {
 
     private IMainView mainView;
-    private IGankTipsData gankTipsData;
+    private GankAPIService gankAPIService;
 
     public MainViewPresenter(IMainView mainView) {
         this.mainView = mainView;
-        this.gankTipsData = new GankTipsData();
+        this.gankAPIService = new GankAPIService();
     }
 
     public void onItemClick(int position) {
         if (mainView == null) {
             return;
         }
-        mainView.toWebActivity(gankTipsData.loadTipsUrl().get(position));
+        mainView.toWebActivity(gankAPIService.loadTipsUrls().get(position));
     }
 
     public void onResume() {
@@ -29,7 +28,7 @@ public class MainViewPresenter implements OnFinishedListener {
             return;
         }
         mainView.showProgress();
-        gankTipsData.loadTipsData(this);
+        gankAPIService.loadTipsData(20,1,this);
     }
 
     public void onDestroy() {
@@ -44,4 +43,5 @@ public class MainViewPresenter implements OnFinishedListener {
         mainView.getItem(item);
         mainView.hideProgress();
     }
+
 }
