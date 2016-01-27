@@ -8,7 +8,9 @@ public interface IMainView {
 
     void hideProgress();
 
-    void getItem(List<String> item);
+    void getItem(List<String> items);
+
+    void loadMoreItem();
 
     void showToast(String str);
 

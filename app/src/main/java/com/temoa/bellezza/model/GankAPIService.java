@@ -20,10 +20,11 @@ public class GankAPIService {
     private List<String> items = new ArrayList<>();
     private List<String> urls = new ArrayList<>();
     private IGankAPIService gankAPIService;
+    Retrofit retrofit;
 
     public GankAPIService() {
 
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(API.URL.BASEURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -31,11 +32,13 @@ public class GankAPIService {
     }
 
     public void loadTipsData(int amount, int page, final OnFinishedListener listener) {
-        Call<GankAndroidTipsBean> call = gankAPIService.getData(amount, page);
+        final Call<GankAndroidTipsBean> call = gankAPIService.getData(amount, page);
         call.enqueue(new Callback<GankAndroidTipsBean>() {
             @Override
             public void onResponse(Response<GankAndroidTipsBean> response, Retrofit retrofit) {
                 GankAndroidTipsBean gankAndroidTipsBean = response.body();
+                items.clear();
+                urls.clear();
                 for (int i = 0; i < gankAndroidTipsBean.getResults().size(); i++) {
                     items.add(gankAndroidTipsBean.getResults().get(i).getDesc());
                     urls.add(gankAndroidTipsBean.getResults().get(i).getUrl());
@@ -50,7 +53,27 @@ public class GankAPIService {
         });
     }
 
-    public List<String> loadTipsUrls(){
+    public void loadMoreTipsData(int amount, int page, final OnFinishedListener listener) {
+        Call<GankAndroidTipsBean> call = gankAPIService.getData(amount, page);
+        call.enqueue(new Callback<GankAndroidTipsBean>() {
+            @Override
+            public void onResponse(Response<GankAndroidTipsBean> response, Retrofit retrofit) {
+                GankAndroidTipsBean gankAndroidTipsBean = response.body();
+                for (int i = 0; i < gankAndroidTipsBean.getResults().size(); i++) {
+                    items.add(gankAndroidTipsBean.getResults().get(i).getDesc());
+                    urls.add(gankAndroidTipsBean.getResults().get(i).getUrl());
+                }
+                listener.onLoadMoreFinished(items);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d("GankAPIService", "load tips data failed");
+            }
+        });
+    }
+
+    public List<String> loadTipsUrls() {
         return urls;
     }
 }
