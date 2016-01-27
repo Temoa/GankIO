@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mainViewPresenter.onItemClick(position);
     }
-    //ListView滑动时间监听
+    //ListView滑动事件监听
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastItem = firstVisibleItem + visibleItemCount;
