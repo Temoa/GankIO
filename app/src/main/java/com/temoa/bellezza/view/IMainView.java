@@ -12,6 +12,8 @@ public interface IMainView {
 
     void loadMoreItem();
 
+    void getWelfare(List<String> urls);
+
     void showToast(String str);
 
     void toWebActivity(String url);

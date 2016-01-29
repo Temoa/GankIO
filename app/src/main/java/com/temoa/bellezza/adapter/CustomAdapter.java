@@ -45,10 +45,9 @@ public class CustomAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.listview_item, null);
             holder.viewTitle = (TextView) convertView.findViewById(R.id.textTitle);
             convertView.setTag(holder);
-        }else{
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
         holder.viewTitle.setText(items.get(position));
         return convertView;
     }

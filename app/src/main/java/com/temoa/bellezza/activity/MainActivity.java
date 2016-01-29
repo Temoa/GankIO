@@ -5,14 +5,17 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.jude.rollviewpager.RollPagerView;
 import com.temoa.bellezza.R;
 import com.temoa.bellezza.adapter.CustomAdapter;
+import com.temoa.bellezza.adapter.RollViewPagerAdapter;
 import com.temoa.bellezza.presenter.MainViewPresenter;
 import com.temoa.bellezza.view.IMainView;
 
@@ -34,14 +37,30 @@ public class MainActivity extends AppCompatActivity
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
+    private RollPagerView rollPagerView;
     private MainViewPresenter mainViewPresenter;
     private CustomAdapter mAdapter;
-    //生命周期：onCreate
+    private View footerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initView();
+        mainViewPresenter = new MainViewPresenter(this);
+        mainViewPresenter.onCreate();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ButterKnife.unbind(this);
+        mainViewPresenter.onDestroy();
+        super.onDestroy();
+    }
+
+    //初始化界面
+    private void initView() {
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.write));
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -49,26 +68,26 @@ public class MainActivity extends AppCompatActivity
                 android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_green_light);
-        mainViewPresenter = new MainViewPresenter(this);
-        mainViewPresenter.onCreate();
+        footerView = LayoutInflater.from(this).inflate(R.layout.loadmore, null);
+        View headView = LayoutInflater.from(this).inflate(R.layout.rollviewpager, null);
+        listView.addHeaderView(headView);
+        rollPagerView = (RollPagerView) findViewById(R.id.rollViewPager);
+        rollPagerView.setAnimationDurtion(3000);
     }
-    //生命周期：onDestroy
-    @Override
-    protected void onDestroy() {
-        ButterKnife.unbind(this);
-        mainViewPresenter.onDestroy();
-        super.onDestroy();
-    }
+
     //swipeRefreshLayout下拉刷新监听
     @Override
     public void onRefresh() {
         mainViewPresenter.loadItem();
+        mainViewPresenter.loadWelfare();
     }
+
     //ListView子项点击事件监听
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mainViewPresenter.onItemClick(position);
     }
+
     //ListView滑动事件监听
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -76,6 +95,9 @@ public class MainActivity extends AppCompatActivity
         if (lastItem == totalItemCount) {
             View lastItemView = listView.getChildAt(listView.getChildCount() - 1);
             if ((listView.getBottom()) == (lastItemView.getBottom())) {
+                if (listView.getFooterViewsCount() == 0) {
+                    listView.addFooterView(footerView);
+                }
                 mainViewPresenter.addMoreItem();
             }
         }
@@ -83,8 +105,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-
+        //do somethings
     }
+
     //显示隐藏ProgressBar
     @Override
     public void showProgress() {
@@ -95,7 +118,8 @@ public class MainActivity extends AppCompatActivity
     public void hideProgress() {
         swipeRefreshLayout.setRefreshing(false);
     }
-    //加载和下拉刷新数据
+
+    //加载数据
     @Override
     public void getItem(List<String> items) {
         mAdapter = new CustomAdapter(this, items);
@@ -103,16 +127,25 @@ public class MainActivity extends AppCompatActivity
         listView.setOnItemClickListener(this);
         listView.setOnScrollListener(this);
     }
+
     //上拉加载更多数据
     @Override
     public void loadMoreItem() {
+        listView.removeFooterView(footerView);
         mAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void getWelfare(List<String> urls) {
+        rollPagerView.setAdapter(new RollViewPagerAdapter(urls));
+    }
+
     //吐司
     @Override
     public void showToast(String str) {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
+
     //跳转到WebView显示
     @Override
     public void toWebActivity(String url) {

@@ -23,6 +23,7 @@ public class MainViewPresenter implements OnFinishedListener {
         }
         mainView.showProgress();
         loadItem();
+        loadWelfare();
     }
 
     public void onDestroy() {
@@ -38,14 +39,21 @@ public class MainViewPresenter implements OnFinishedListener {
     }
 
     //初始化和下拉加载数据
-    public void loadItem(){
+    public void loadItem() {
         gankAPIService.loadTipsData(20, 1, this);
     }
+
     //上拉加载更多数据
-    public void addMoreItem(){
-        page ++;
-        gankAPIService.loadMoreTipsData(10,page,this);
+    public void addMoreItem() {
+        page++;
+        gankAPIService.loadMoreTipsData(10, page, this);
     }
+
+    //加载Welfare数据
+    public void loadWelfare() {
+        gankAPIService.loadWelfareData(5, 1, this);
+    }
+
     //加载数据完成后显示在ListView上
     @Override
     public void onLoadFinished(List<String> item) {
@@ -55,6 +63,7 @@ public class MainViewPresenter implements OnFinishedListener {
         mainView.getItem(item);
         mainView.hideProgress();
     }
+
     //加载更多数据完成后显示在ListView上
     @Override
     public void onLoadMoreFinished(List<String> items) {
@@ -64,4 +73,22 @@ public class MainViewPresenter implements OnFinishedListener {
         mainView.loadMoreItem();
     }
 
+    //加载WelFare数据到RollViewPager
+    @Override
+    public void onLoadWelfareFinished(List<String> urls) {
+        if (mainView == null) {
+            return;
+        }
+        mainView.getWelfare(urls);
+    }
+
+    //显示吐司
+    @Override
+    public void onLoadFailed(String msg) {
+        if (mainView == null) {
+            return;
+        }
+        mainView.showToast(msg);
+        mainView.hideProgress();
+    }
 }

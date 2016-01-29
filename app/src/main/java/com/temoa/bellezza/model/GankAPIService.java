@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.temoa.bellezza.api.API;
 import com.temoa.bellezza.bean.GankAndroidTipsBean;
+import com.temoa.bellezza.bean.GankBeaWelfareTipsBean;
 import com.temoa.bellezza.listener.OnFinishedListener;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class GankAPIService {
             @Override
             public void onFailure(Throwable t) {
                 Log.d("GankAPIService", "load tips data failed");
+                listener.onLoadFailed("加载失败，请检查网络");
             }
         });
     }
@@ -68,12 +70,34 @@ public class GankAPIService {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.d("GankAPIService", "load tips data failed");
+                Log.d("GankAPIService", "load more tips data failed");
+                listener.onLoadFailed("加载失败，请检查网络");
             }
         });
     }
 
     public List<String> loadTipsUrls() {
         return urls;
+    }
+
+    public void loadWelfareData(int amount, int page, final OnFinishedListener listener) {
+        Call<GankBeaWelfareTipsBean> call = gankAPIService.getImg(amount, page);
+        call.enqueue(new Callback<GankBeaWelfareTipsBean>() {
+            @Override
+            public void onResponse(Response<GankBeaWelfareTipsBean> response, Retrofit retrofit) {
+                GankBeaWelfareTipsBean gankBeaWelfareTipsBean = response.body();
+                List<String> urls = new ArrayList<>();
+                for (int i = 0; i < gankBeaWelfareTipsBean.getResults().size(); i++) {
+                    urls.add(gankBeaWelfareTipsBean.getResults().get(i).getUrl());
+                }
+                listener.onLoadWelfareFinished(urls);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d("GankAPIService", "load welfare data failed");
+                listener.onLoadFailed("加载失败，请检查网络");
+            }
+        });
     }
 }
