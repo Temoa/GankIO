@@ -1,9 +1,11 @@
 ##Bellezz
 ![icon](/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "")
+		
 		每日分享妹子图 和 技术干货，还有供大家中午休息的休闲视频。——干货集中营
 提供Android技术干货。数据来源于[干货集中营](http://gank.io/)。非常感谢 [@代码家](http://weibo.com/u/1628291124?topnav=1&wvr=6&topsug=1&is_all=1)
 
 ![img](/screenshots/screenshot.jpg "")
+
 [下载](http://fir.im/bellezza)
 
 ##关于
