@@ -1,7 +1,7 @@
 ##Bellezz
+		每日分享妹子图 和 技术干货，还有供大家中午休息的休闲视频。——干货集中营
 ![icon](/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "")
 		
-		每日分享妹子图 和 技术干货，还有供大家中午休息的休闲视频。——干货集中营
 提供Android技术干货。数据来源于[干货集中营](http://gank.io/)。非常感谢 [@代码家](http://weibo.com/u/1628291124?topnav=1&wvr=6&topsug=1&is_all=1)
 
 ![img](/screenshots/screenshot.jpg "")
@@ -27,5 +27,7 @@ Bellezz是自己在学习MVP架构过程中的产物。使用过 @drakeet 的[�
 
 ##联系方式
 email：temoa_yui@163.com
+
 weibo：[Tem0a_](http://weibo.com/lailaizuiaiyiyi/profile?rightmod=1&wvr=6&mod=personinfo)
+
 欢迎交流学习
