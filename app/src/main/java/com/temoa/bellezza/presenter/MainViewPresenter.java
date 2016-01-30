@@ -35,7 +35,7 @@ public class MainViewPresenter implements OnFinishedListener {
         if (mainView == null) {
             return;
         }
-        mainView.toWebActivity(gankAPIService.loadTipsUrls().get(position));
+        mainView.toWebActivity(gankAPIService.loadTipsUrls().get(position - 1));
     }
 
     //初始化和下拉加载数据
