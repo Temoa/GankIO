@@ -8,11 +8,11 @@ public interface IMainView {
 
     void hideProgress();
 
-    void getItem(List<String> items);
+    void getItem(List<String> titleList);
+
+    void getPhoto(List<String> photoUrlList);
 
     void loadMoreItem();
-
-    void getWelfare(List<String> urls);
 
     void showToast(String str);
 

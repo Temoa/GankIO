@@ -10,7 +10,7 @@ public class WebActivityPresenter {
         this.iWebActivity = iWebActivity;
     }
 
-    public void onResume() {
+    public void onCreate() {
         if (iWebActivity == null) {
             return;
         }

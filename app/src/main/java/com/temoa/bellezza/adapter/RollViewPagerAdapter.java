@@ -7,12 +7,12 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RollViewPagerAdapter extends StaticPagerAdapter {
 
-    private List<String> welfareUrls = new ArrayList<>();
+    private List<String> welfareUrls;
+
     public RollViewPagerAdapter(List<String> urls) {
         this.welfareUrls = urls;
     }
@@ -20,7 +20,6 @@ public class RollViewPagerAdapter extends StaticPagerAdapter {
     @Override
     public View getView(ViewGroup container, int position) {
         ImageView view = new ImageView(container.getContext());
-        //view.setImageResource(imgs[position]);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         view.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -32,6 +31,6 @@ public class RollViewPagerAdapter extends StaticPagerAdapter {
 
     @Override
     public int getCount() {
-        return welfareUrls.size();
+        return welfareUrls == null ? 0 : welfareUrls.size();
     }
 }

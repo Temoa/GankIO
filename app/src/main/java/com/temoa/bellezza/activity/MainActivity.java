@@ -2,20 +2,20 @@ package com.temoa.bellezza.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.animation.AccelerateInterpolator;
 
-import com.jude.rollviewpager.RollPagerView;
 import com.temoa.bellezza.R;
-import com.temoa.bellezza.adapter.CustomAdapter;
+import com.temoa.bellezza.adapter.RecyclerAdapter;
 import com.temoa.bellezza.adapter.RollViewPagerAdapter;
+import com.temoa.bellezza.listener.RecyclerScrollListener;
 import com.temoa.bellezza.presenter.MainViewPresenter;
 import com.temoa.bellezza.view.IMainView;
 
@@ -24,23 +24,18 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity
-        implements IMainView,
-        AdapterView.OnItemClickListener,
-        SwipeRefreshLayout.OnRefreshListener,
-        AbsListView.OnScrollListener {
+public class MainActivity extends AppCompatActivity implements IMainView, SwipeRefreshLayout.OnRefreshListener {
 
-    @Bind(R.id.listView)
-    ListView listView;
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    private RollPagerView rollPagerView;
     private MainViewPresenter mainViewPresenter;
-    private CustomAdapter mAdapter;
-    private View footerView;
+    private RecyclerAdapter recyclerAdapter;
+    private RollViewPagerAdapter rollViewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +45,7 @@ public class MainActivity extends AppCompatActivity
         initView();
         mainViewPresenter = new MainViewPresenter(this);
         mainViewPresenter.onCreate();
+        System.out.println("create");
     }
 
     @Override
@@ -68,11 +64,25 @@ public class MainActivity extends AppCompatActivity
                 android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_green_light);
-        footerView = LayoutInflater.from(this).inflate(R.layout.loadmore, null);
-        View headView = LayoutInflater.from(this).inflate(R.layout.rollviewpager, null);
-        listView.addHeaderView(headView);
-        rollPagerView = (RollPagerView) findViewById(R.id.rollViewPager);
-        rollPagerView.setAnimationDurtion(3000);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addOnScrollListener(new RecyclerScrollListener() {
+            @Override
+            public void onHide() {
+                toolbar.animate().translationY(-toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+            }
+
+            @Override
+            public void onShow() {
+                toolbar.animate().translationY(0).setInterpolator(new AccelerateInterpolator(2));
+            }
+
+            @Override
+            public void loadMore() {
+                mainViewPresenter.addMoreItem();
+            }
+        });
     }
 
     //swipeRefreshLayout下拉刷新监听
@@ -80,32 +90,6 @@ public class MainActivity extends AppCompatActivity
     public void onRefresh() {
         mainViewPresenter.loadItem();
         mainViewPresenter.loadWelfare();
-    }
-
-    //ListView子项点击事件监听
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mainViewPresenter.onItemClick(position);
-    }
-
-    //ListView滑动事件监听
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        int lastItem = firstVisibleItem + visibleItemCount;
-        if (lastItem == totalItemCount) {
-            View lastItemView = listView.getChildAt(listView.getChildCount() - 1);
-            if ((listView.getBottom()) == (lastItemView.getBottom())) {
-                if (listView.getFooterViewsCount() == 0) {
-                    listView.addFooterView(footerView);
-                }
-                mainViewPresenter.addMoreItem();
-            }
-        }
-    }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        //do somethings
     }
 
     //显示隐藏ProgressBar
@@ -119,31 +103,44 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    //加载数据
+    //加载图片数据，初始化rollPagerViewAdapter
     @Override
-    public void getItem(List<String> items) {
-        mAdapter = new CustomAdapter(this, items);
-        listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(this);
-        listView.setOnScrollListener(this);
+    public void getPhoto(List<String> photoUrlList) {
+        rollViewPagerAdapter = new RollViewPagerAdapter(photoUrlList);
+    }
+
+    //加载item数据，初始化RecyclerView的Adapter，并且绑定Adapter
+    @Override
+    public void getItem(List<String> titleList) {
+        recyclerAdapter = new RecyclerAdapter(titleList, rollViewPagerAdapter);
+        recyclerAdapter.setOnRecyclerViewItemClikcListener(new RecyclerAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                mainViewPresenter.onItemClick(position);
+            }
+        });
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
     //上拉加载更多数据
     @Override
     public void loadMoreItem() {
-        listView.removeFooterView(footerView);
-        mAdapter.notifyDataSetChanged();
+        recyclerAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void getWelfare(List<String> urls) {
-        rollPagerView.setAdapter(new RollViewPagerAdapter(urls));
-    }
 
     //吐司
     @Override
     public void showToast(String str) {
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+        final Snackbar snackbar = Snackbar.make(swipeRefreshLayout, str, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("刷新", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRefresh();
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
     }
 
     //跳转到WebView显示
