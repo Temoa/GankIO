@@ -10,9 +10,9 @@
 ##更新
 * 2016.02.18（主要是懒，拖了很久，年后加把劲）
 
-  1.弃用ListView，使用RecyclerView和CardView。
+  1.弃用ListView，使用RecyclerView和CardView
   
-  2.完善其他功能，小细节。
+  2.完善其他功能，小细节
 ##关于
 Bellezz是自己在学习MVP架构过程中的产物。使用过 @drakeet 的[妹纸.gank.io](https://github.com/drakeet/Meizhi)和 @xingrz 的[干妹纸](https://github.com/xingrz/GankMeizhi)，都是非常值得学习的开源项目。自己应该也能完成一个简化版的吧，自己每天也要看Android方面的技术文章，所以App只展示了Android的技术干货，但是妹子也是少不了的。ε=ε=(ノ≧∇≦)ノ
 
