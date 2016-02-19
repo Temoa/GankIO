@@ -80,7 +80,7 @@ public class GankAPIService {
         return urls;
     }
 
-    public void loadWelfareData(int amount, int page, final OnFinishedListener listener) {
+    public void loadPhotoUrlData(int amount, int page, final OnFinishedListener listener) {
         Call<GankBeaWelfareTipsBean> call = gankAPIService.getImg(amount, page);
         call.enqueue(new Callback<GankBeaWelfareTipsBean>() {
             @Override
@@ -90,7 +90,7 @@ public class GankAPIService {
                 for (int i = 0; i < gankBeaWelfareTipsBean.getResults().size(); i++) {
                     urls.add(gankBeaWelfareTipsBean.getResults().get(i).getUrl());
                 }
-                listener.onLoadWelfareFinished(urls);
+                listener.onLoadPhotoUrlFinished(urls);
             }
 
             @Override

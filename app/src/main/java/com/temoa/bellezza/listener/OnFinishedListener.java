@@ -8,7 +8,7 @@ public interface OnFinishedListener {
 
     void onLoadMoreFinished(List<String> items);
 
-    void onLoadWelfareFinished(List<String> urls);
+    void onLoadPhotoUrlFinished(List<String> urls);
 
     void onLoadFailed(String msg);
 }

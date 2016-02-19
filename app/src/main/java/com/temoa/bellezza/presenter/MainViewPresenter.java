@@ -22,7 +22,7 @@ public class MainViewPresenter implements OnFinishedListener {
             return;
         }
         mainView.showProgress();
-        loadWelfare();
+        loadPhotoUrl();
     }
 
     public void onDestroy() {
@@ -43,8 +43,8 @@ public class MainViewPresenter implements OnFinishedListener {
     }
 
     //加载Welfare数据
-    public void loadWelfare() {
-        gankAPIService.loadWelfareData(5, 1, this);
+    public void loadPhotoUrl() {
+        gankAPIService.loadPhotoUrlData(5, 1, this);
     }
 
     //上拉加载更多数据
@@ -65,7 +65,7 @@ public class MainViewPresenter implements OnFinishedListener {
 
     //加载WelFare数据到RollViewPager
     @Override
-    public void onLoadWelfareFinished(List<String> urls) {
+    public void onLoadPhotoUrlFinished(List<String> urls) {
         if (mainView == null) {
             return;
         }

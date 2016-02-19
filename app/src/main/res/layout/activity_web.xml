@@ -12,6 +12,12 @@
         android:background="@color/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"/>
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
@@ -19,14 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@id/toolbar"
+        android:background="@color/colorPrimary"
         android:max="100"
         android:visibility="visible"/>
-
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/progressBar"/>
-
-
 </RelativeLayout>
