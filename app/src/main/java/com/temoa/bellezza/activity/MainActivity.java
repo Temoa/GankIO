@@ -9,7 +9,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
@@ -64,9 +63,8 @@ public class MainActivity extends AppCompatActivity implements IMainView, SwipeR
                 android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_green_light);
-        //调整进度球距离顶部的距离，解决toolbar遮挡进度球的问题。并且为了第一次进入页面的时候显示加载进度球
-        swipeRefreshLayout.setProgressViewOffset(false,24,
-                (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,64,getResources().getDisplayMetrics()));
+        //调整进度球距离顶部的距离，解决toolbar遮挡进度球的问题。
+        swipeRefreshLayout.setProgressViewOffset(false,96,200);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
