@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
 import com.temoa.bellezza.R;
+import com.temoa.bellezza.Utils.DensityUtil;
 import com.temoa.bellezza.adapter.RecyclerAdapter;
 import com.temoa.bellezza.adapter.RollViewPagerAdapter;
 import com.temoa.bellezza.listener.RecyclerScrollListener;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, SwipeR
                 android.R.color.holo_red_light,
                 android.R.color.holo_green_light);
         //调整进度球距离顶部的距离，解决toolbar遮挡进度球的问题。
-        swipeRefreshLayout.setProgressViewOffset(false,96,200);
+        swipeRefreshLayout.setProgressViewOffset(false, DensityUtil.dip2px(this,48),DensityUtil.dip2px(this,72));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

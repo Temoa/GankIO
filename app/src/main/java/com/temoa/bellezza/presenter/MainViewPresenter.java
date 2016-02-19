@@ -21,7 +21,7 @@ public class MainViewPresenter implements OnFinishedListener {
         if (mainView == null) {
             return;
         }
-        mainView.showProgress();
+        //mainView.showProgress();
         loadPhotoUrl();
     }
 
