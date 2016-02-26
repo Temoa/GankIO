@@ -17,6 +17,15 @@ public class GankAndroidTipsBean {
     public static class ResultsEntity {
         private String desc;
         private String url;
+        private String createdAt;
+
+        public String getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setCreatedAt(String createdAt) {
+            this.createdAt = createdAt;
+        }
 
         public void setDesc(String desc) {
             this.desc = desc;

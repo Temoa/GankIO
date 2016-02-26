@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements IMainView, SwipeR
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.card_view)
+    CardView cardView_toolbar;
 
     private MainViewPresenter mainViewPresenter;
     private RecyclerAdapter recyclerAdapter;
@@ -57,27 +61,31 @@ public class MainActivity extends AppCompatActivity implements IMainView, SwipeR
 
     //初始化界面
     private void initView() {
+        //初始化toolbar
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.write));
+        //初始化SwipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(
                 android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_green_light);
         //调整进度球距离顶部的距离，解决toolbar遮挡进度球的问题。
-        swipeRefreshLayout.setProgressViewOffset(false, DensityUtil.dip2px(this,48),DensityUtil.dip2px(this,72));
+        swipeRefreshLayout.setProgressViewOffset(false, DensityUtil.dip2px(this, 48), DensityUtil.dip2px(this, 72));
+        //初始化RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        //toolbar上下拉展示，消失
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onHide() {
-                toolbar.animate().translationY(-toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+                cardView_toolbar.animate().translationY(-toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
             }
 
             @Override
             public void onShow() {
-                toolbar.animate().translationY(0).setInterpolator(new AccelerateInterpolator(2));
+                cardView_toolbar.animate().translationY(0).setInterpolator(new AccelerateInterpolator(2));
             }
 
             @Override
@@ -128,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, SwipeR
     @Override
     public void loadMoreItem() {
         recyclerAdapter.notifyDataSetChanged();
+        Log.d("Recycler","notifyDataSetChanged");
     }
 
     //吐司

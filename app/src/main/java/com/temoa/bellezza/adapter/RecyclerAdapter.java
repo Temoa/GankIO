@@ -1,6 +1,7 @@
 package com.temoa.bellezza.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,6 +104,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public void onClick(View v) {
             if (onRecyclerViewItemClickListener != null) {
                 onRecyclerViewItemClickListener.onItemClick(v, getPosition());
+                textTitle.setTextColor(Color.GRAY);
             }
         }
     }

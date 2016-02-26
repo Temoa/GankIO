@@ -50,14 +50,20 @@ public class WebActivity extends AppCompatActivity implements IWebActivity {
                 return true;
             }
         });
-        webView.setWebChromeClient(new WebChromeClient(){
+        webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 showProgressbar();
                 progressBar.setProgress(newProgress);
-                if (newProgress == 100){
+                if (newProgress == 100) {
                     hideProgressbar();
                 }
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                setTitle(title);
             }
         });
         WebSettings settings = webView.getSettings();

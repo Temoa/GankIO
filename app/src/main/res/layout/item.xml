@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="4dp">
+    android:layout_margin="2dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="1dp">
 
     <TextView
         android:id="@+id/itemTextView"
@@ -14,6 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/listPreferredItemHeight"
         android:gravity="center_vertical"
-        android:padding="8dp"/>
+        android:padding="4dp"/>
 
 </android.support.v7.widget.CardView>
