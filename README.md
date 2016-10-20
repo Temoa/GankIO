@@ -1,7 +1,10 @@
 ## GankIO
-![icon](app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "")
 
 >每日分享妹子图和技术干货，还有供大家中午休息的休闲视频。——干货集中营
+
+![icon](app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "")
+
+
 
 提供技术干货。数据来源于[干货集中营](http://gank.io/)。非常感谢 [@代码家](http://weibo.com/u/1628291124?topnav=1&wvr=6&topsug=1&is_all=1)
 
