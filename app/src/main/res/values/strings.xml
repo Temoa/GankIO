@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Bellezza</string>
+    <string name="app_name">GankIO</string>
+    <string name="welcome_iv">欢迎图片</string>
+    <string name="gank">Gank | 干货</string>
+    <string name="portrait">头像</string>
+    <string name="author">Temoa</string>
+    <string name="type">类别</string>
+    <string name="delete">删除</string>
+    <string name="collect">收藏</string>
+    <string name="about">关于</string>
 </resources>
