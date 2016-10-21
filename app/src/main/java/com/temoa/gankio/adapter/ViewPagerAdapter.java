@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.temoa.gankio.CommonFragment;
-import com.temoa.gankio.Constants;
 
 /**
  * Created by Temoa
@@ -22,16 +21,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return new CommonFragment().getInstance(Constants.TYPE_ANDROID);
-            case 1:
-                return new CommonFragment().getInstance(Constants.TYPE_IOS);
-            case 2:
-                return new CommonFragment().getInstance(Constants.TYPE_WEB);
-            default:
-                return null;
-        }
+        return new CommonFragment().getInstance(titleList[position]);
     }
 
     @Override

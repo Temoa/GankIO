@@ -76,7 +76,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
     private void createPopupMenu(View v, final String desc) {
         final PopupMenu menu = new PopupMenu(this, v);
-        menu.getMenuInflater().inflate(R.menu.activity_fav_item, menu.getMenu());
+        menu.getMenuInflater().inflate(R.menu.fav_menu, menu.getMenu());
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

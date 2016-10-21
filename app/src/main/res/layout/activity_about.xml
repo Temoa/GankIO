@@ -11,8 +11,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:elevation="6dp"
-        android:theme="@style/Theme.AppCompat"
-        />
+        android:theme="@style/Theme.AppCompat"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,8 +37,7 @@
             android:text="@string/author"
             android:textColor="#F5F5F5"
             android:textSize="26sp"
-            android:typeface="monospace"
-            />
+            android:typeface="monospace"/>
     </LinearLayout>
 
     <TextView
@@ -48,8 +46,7 @@
         android:layout_height="?attr/listPreferredItemHeight"
         android:layout_gravity="center"
         android:layout_margin="16dp"
-        android:typeface="monospace"
-        />
+        android:typeface="monospace"/>
 
     <TextView
         android:id="@+id/about_tv_github"
@@ -57,8 +54,7 @@
         android:layout_height="?attr/listPreferredItemHeight"
         android:layout_gravity="center"
         android:layout_margin="16dp"
-        android:typeface="monospace"
-        />
+        android:typeface="monospace"/>
 
     <TextView
         android:id="@+id/about_tv_gank"
@@ -66,7 +62,6 @@
         android:layout_height="?attr/listPreferredItemHeight"
         android:layout_gravity="center"
         android:layout_margin="16dp"
-        android:typeface="monospace"
-        />
+        android:typeface="monospace"/>
 
 </LinearLayout>

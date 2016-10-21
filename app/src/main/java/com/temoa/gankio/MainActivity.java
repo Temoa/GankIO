@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String sDefault = "http://ww3.sinaimg.cn/large/610dc034jw1f8w2tr9bgzj20ku0mjdi8.jpg";
     private static final String[] TITLE_LIST = {Constants.TYPE_ANDROID, Constants.TYPE_IOS, Constants.TYPE_WEB};
     private String[] beauty = new String[3];
+    private String mTargetUrl = sDefault;
     private ACache mCache;
 
     @Override
@@ -48,15 +51,15 @@ public class MainActivity extends AppCompatActivity {
                 beauty[i] = sDefault;
             }
         }
+
+        mTargetUrl = beauty[0];
     }
 
     private void initViews() {
-        setTitle("");
-
         MaterialViewPager viewPager = (MaterialViewPager) findViewById(R.id.main_material_pager);
         Toolbar toolbar = viewPager.getToolbar();
-
         if (toolbar != null) {
+            toolbar.setTitle("");
             toolbar.setPopupTheme(R.style.AppBaseTheme_PopupOverlay);
             toolbar.setNavigationIcon(R.drawable.ic_nav);
             setSupportActionBar(toolbar);
@@ -69,19 +72,20 @@ public class MainActivity extends AppCompatActivity {
                 new MaterialViewPager.Listener() {
                     @Override
                     public HeaderDesign getHeaderDesign(int page) {
-                        switch (page) {
-                            case 0:
-                                return HeaderDesign.fromColorResAndUrl(R.color.colorPrimary, beauty[0]);
-                            case 1:
-                                return HeaderDesign.fromColorResAndUrl(R.color.colorPrimary, beauty[1]);
-                            case 2:
-                                return HeaderDesign.fromColorResAndUrl(R.color.colorPrimary, beauty[2]);
-                        }
-                        return null;
+                        mTargetUrl = beauty[page];
+                        return HeaderDesign.fromColorResAndUrl(R.color.colorPrimary, mTargetUrl);
                     }
                 });
         viewPager.getViewPager().setOffscreenPageLimit(viewPager.getViewPager().getAdapter().getCount());
         viewPager.getPagerTitleStrip().setViewPager(viewPager.getViewPager());
+
+        TextView headerText = (TextView) findViewById(R.id.main_logo);
+        headerText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PhotoActivity.launch(MainActivity.this, mTargetUrl);
+            }
+        });
     }
 
     private void getBeauty() {
@@ -124,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 

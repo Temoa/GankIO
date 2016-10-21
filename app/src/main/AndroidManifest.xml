@@ -23,8 +23,7 @@
         </activity>
         <activity android:name=".AboutActivity"/>
         <activity android:name=".FavoritesActivity"/>
-        <!--取消-->
-        <activity android:name=".WelcomeActivity"/>
+        <activity android:name=".PhotoActivity"/>
     </application>
 
 </manifest>

@@ -28,6 +28,8 @@ import java.util.List;
  */
 public class CommonFragment extends Fragment implements IView {
 
+    private static final String BUNDLE_SAVE_KEY = "type";
+
     private Activity mContext;
     private Presenter mPresenter;
 
@@ -49,15 +51,28 @@ public class CommonFragment extends Fragment implements IView {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.fragment_recycler);
         mRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fragment_swipeLayout);
 
+        if (savedInstanceState != null && type == null)
+            type = savedInstanceState.getString(BUNDLE_SAVE_KEY);
+
         mContext = getActivity();
         mPresenter = new Presenter(mContext, this);
 
         initRecycler();
         initSwipeLayout();
 
-        mPresenter.onCreate(type);
+        if (type != null) {
+            mPresenter.onCreate(type);
+            mPresenter.getNewData(type);
+        }
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (type != null)
+            outState.putString(BUNDLE_SAVE_KEY, type);
     }
 
     private void initRecycler() {

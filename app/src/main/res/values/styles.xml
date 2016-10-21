@@ -22,6 +22,6 @@
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
     </style>
 
-    <!--toolbar theme-->
+    <!--toolbar menu theme-->
     <style name="AppBaseTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>

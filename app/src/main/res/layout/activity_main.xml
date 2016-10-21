@@ -10,7 +10,7 @@
         android:id="@+id/main_material_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:viewpager_animatedHeaderImage="false"
+        app:viewpager_animatedHeaderImage="true"
         app:viewpager_color="@color/colorPrimary"
         app:viewpager_displayToolbarWhenSwipe="true"
         app:viewpager_enableToolbarElevation="true"
