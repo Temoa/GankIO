@@ -68,7 +68,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
 
                     int totalItemCount = layoutManager.getItemCount();
                     if (lastVisibilityItemPos >= totalItemCount - 2 && isScrollDown && isLoadMore) {
-                        mLoadMoreListener.onLoadMore();
+                        if (mLoadMoreListener != null)
+                            mLoadMoreListener.onLoadMore();
                     }
                 }
             }
@@ -124,10 +125,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
             public void onClick(View view) {
                 switch (type) {
                     case TYPE_ITEM_CLICK:
-                        mItemClickListener.onItemClick(view, realData.get(position), position);
+                        if (mItemClickListener != null)
+                            mItemClickListener.onItemClick(view, realData.get(position), position);
                         break;
                     case TYPE_CHILD_CLICK:
-                        mItemChildClickListener.onItemChildClick(view, realData.get(position), position);
+                        if (mItemChildClickListener != null)
+                            mItemChildClickListener.onItemChildClick(view, realData.get(position), position);
                 }
             }
         };
@@ -137,7 +140,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
         return new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                mItemLongClickListener.onItemLongClick(view, realData.get(position), position);
+                if (mItemLongClickListener != null)
+                    mItemLongClickListener.onItemLongClick(view, realData.get(position), position);
                 return true;
             }
         };

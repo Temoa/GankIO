@@ -16,8 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:background="@color/colorPrimary"
         android:contentDescription="@string/welcome_iv"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerInside"/>
 
     <ProgressBar
         android:id="@+id/photo_progressBar"

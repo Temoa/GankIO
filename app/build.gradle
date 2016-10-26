@@ -8,8 +8,8 @@ android {
         applicationId "com.temoa.gankio"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 8
-        versionName "0.3.1"
+        versionCode 9
+        versionName "0.3.3"
     }
     buildTypes {
         release {

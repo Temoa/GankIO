@@ -55,6 +55,7 @@ public class PhotoActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(url)
                 .dontAnimate()
+                .fitCenter()
                 .into(new GlideDrawableImageViewTarget(img) {
                     @Override
                     public void onResourceReady(GlideDrawable resource,

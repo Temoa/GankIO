@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private String mTargetUrl = sDefault;
     private ACache mCache;
 
+    private MaterialViewPager mMaterialViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,19 +58,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        MaterialViewPager viewPager = (MaterialViewPager) findViewById(R.id.main_material_pager);
-        Toolbar toolbar = viewPager.getToolbar();
+        mMaterialViewPager = (MaterialViewPager) findViewById(R.id.main_material_pager);
+        Toolbar toolbar = mMaterialViewPager.getToolbar();
         if (toolbar != null) {
             toolbar.setTitle("");
             toolbar.setPopupTheme(R.style.AppBaseTheme_PopupOverlay);
             toolbar.setNavigationIcon(R.drawable.ic_nav);
             setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-
-        viewPager.getViewPager().setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), TITLE_LIST));
-        viewPager.setMaterialViewPagerListener(
+        mMaterialViewPager.getViewPager()
+                .setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), TITLE_LIST));
+        mMaterialViewPager.setMaterialViewPagerListener(
                 new MaterialViewPager.Listener() {
                     @Override
                     public HeaderDesign getHeaderDesign(int page) {
@@ -76,8 +79,9 @@ public class MainActivity extends AppCompatActivity {
                         return HeaderDesign.fromColorResAndUrl(R.color.colorPrimary, mTargetUrl);
                     }
                 });
-        viewPager.getViewPager().setOffscreenPageLimit(viewPager.getViewPager().getAdapter().getCount());
-        viewPager.getPagerTitleStrip().setViewPager(viewPager.getViewPager());
+        mMaterialViewPager.getViewPager()
+                .setOffscreenPageLimit(mMaterialViewPager.getViewPager().getAdapter().getCount());
+        mMaterialViewPager.getPagerTitleStrip().setViewPager(mMaterialViewPager.getViewPager());
 
         TextView headerText = (TextView) findViewById(R.id.main_logo);
         headerText.setOnClickListener(new View.OnClickListener() {
@@ -102,19 +106,14 @@ public class MainActivity extends AppCompatActivity {
 
                             if (mCache != null)
                                 mCache.put(Constants.TYPE_BEAUTY, data);
+
+                            mMaterialViewPager.onPageScrollStateChanged(0);
                         }
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        if (mCache != null) {
-                            NewGankData data = (NewGankData) mCache.getAsObject(Constants.TYPE_BEAUTY);
-                            if (data == null)
-                                return;
-                            for (int i = 0; i < 3; i++) {
-                                beauty[i] = data.getResults().get(i).getUrl();
-                            }
-                        }
+                        throwable.printStackTrace();
                     }
                 });
     }
