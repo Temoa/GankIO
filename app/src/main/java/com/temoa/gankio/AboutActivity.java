@@ -15,8 +15,16 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         Toolbar toolbar = (Toolbar) findViewById(R.id.about_toolbar);
+        toolbar.setTitle(R.string.about_me);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("关于我");
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         TextView tv_weibo = (TextView) findViewById(R.id.about_tv_weibo);
         TextView tv_github = (TextView) findViewById(R.id.about_tv_github);
@@ -25,10 +33,6 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
         tv_weibo.setOnClickListener(this);
         tv_github.setOnClickListener(this);
         tv_gank.setOnClickListener(this);
-
-        tv_weibo.setText("Weibo: " + Constants.URL_Weibo);
-        tv_github.setText("Github: " + Constants.URL_Github);
-        tv_gank.setText("数据来源: " + Constants.URL_GANK);
     }
 
     @Override

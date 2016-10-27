@@ -28,4 +28,6 @@ public class Constants {
     public static final String TYPE_GITHUB = "github";
     public static final String TYPE_CSDN = "csdn";
     public static final String TYPE_JIANSHU = "jianshu";
+
+    public static final String Default_PIC = "http://ww3.sinaimg.cn/large/610dc034jw1f8w2tr9bgzj20ku0mjdi8.jpg";
 }

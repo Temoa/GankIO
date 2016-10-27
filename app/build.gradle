@@ -6,14 +6,16 @@ android {
 
     defaultConfig {
         applicationId "com.temoa.gankio"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 9
         versionName "0.3.3"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

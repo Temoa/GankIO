@@ -2,9 +2,9 @@
 <resources>
     <color name="blue">#303F9F</color>
 
-    <color name="colorAccent">#CFD8DC</color>
     <color name="colorPrimary">#37474F</color>
     <color name="colorPrimaryDark">#263238</color>
+    <color name="colorAccent">#CFD8DC</color>
 
     <color name="statusBarColor">@color/blue</color>
     <color name="navigationBarColor">@android:color/black</color>

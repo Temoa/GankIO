@@ -56,7 +56,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    // 停止滑动
                     int lastVisibilityItemPos;
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                     if (layoutManager instanceof LinearLayoutManager) {

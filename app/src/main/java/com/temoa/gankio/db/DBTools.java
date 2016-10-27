@@ -57,7 +57,7 @@ public class DBTools {
                 entity.setDesc(cursor.getString(cursor.getColumnIndex(Constants.DB_ITEM_DESC)));
                 entity.setType(cursor.getString(cursor.getColumnIndex(Constants.DB_ITEM_TYPE)));
                 entity.setUrl(cursor.getString(cursor.getColumnIndex(Constants.DB_ITEM_URL)));
-                entities.add(entity);
+                entities.add(0, entity);
             } while (cursor.moveToNext());
         }
         cursor.close();

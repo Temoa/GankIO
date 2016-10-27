@@ -21,12 +21,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
+
 public class MainActivity extends AppCompatActivity {
 
-    private static final String sDefault = "http://ww3.sinaimg.cn/large/610dc034jw1f8w2tr9bgzj20ku0mjdi8.jpg";
     private static final String[] TITLE_LIST = {Constants.TYPE_ANDROID, Constants.TYPE_IOS, Constants.TYPE_WEB};
     private String[] beauty = new String[3];
-    private String mTargetUrl = sDefault;
+    private String mTargetUrl = Constants.Default_PIC;
     private ACache mCache;
 
     private MaterialViewPager mMaterialViewPager;
@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         prepareData();
-        getBeauty();
         initViews();
+        getBeauty();
     }
 
     private void prepareData() {
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             for (int i = 0; i < 3; i++) {
-                beauty[i] = sDefault;
+                beauty[i] = Constants.Default_PIC;
             }
         }
 
@@ -106,9 +106,8 @@ public class MainActivity extends AppCompatActivity {
 
                             if (mCache != null)
                                 mCache.put(Constants.TYPE_BEAUTY, data);
-
-                            mMaterialViewPager.onPageScrollStateChanged(0);
                         }
+                        mMaterialViewPager.onPageSelected(0);
                     }
                 }, new Action1<Throwable>() {
                     @Override

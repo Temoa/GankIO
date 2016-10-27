@@ -2,6 +2,7 @@ package com.temoa.gankio.mvpFragment;
 
 import android.content.Context;
 
+import com.temoa.gankio.R;
 import com.temoa.gankio.bean.NewGankData.Results;
 
 import java.util.List;
@@ -13,10 +14,12 @@ import java.util.List;
 
 public class Presenter implements NetworkListener {
 
+    private Context mContext;
     private IView mView;
     private IModel mModel;
 
     public Presenter(Context context, IView iView) {
+        mContext = context;
         mView = iView;
         mModel = new ModelImpl(context);
     }
@@ -32,6 +35,9 @@ public class Presenter implements NetworkListener {
         if (mModel != null) {
             mModel.cancel();
             mModel = null;
+        }
+        if (mContext != null) {
+            mContext = null;
         }
     }
 
@@ -50,7 +56,7 @@ public class Presenter implements NetworkListener {
             boolean isSaved = mModel.addDataToDb(data);
             if (isSaved)
                 if (mView != null)
-                    mView.showToast("已收藏");
+                    mView.showToast(mContext.getResources().getString(R.string.saved));
         }
     }
 
