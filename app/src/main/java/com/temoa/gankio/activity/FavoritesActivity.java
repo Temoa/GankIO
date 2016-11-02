@@ -1,4 +1,4 @@
-package com.temoa.gankio;
+package com.temoa.gankio.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.temoa.gankio.R;
 import com.temoa.gankio.adapter.RecyclerAdapter;
 import com.temoa.gankio.bean.NewGankData;
 import com.temoa.gankio.db.DBHelper;

@@ -15,7 +15,7 @@
         android:theme="@style/AppBaseTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -24,9 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AboutActivity"/>
-        <activity android:name=".FavoritesActivity"/>
-        <activity android:name=".PhotoActivity"/>
+        <activity android:name=".activity.AboutActivity"/>
+        <activity android:name=".activity.FavoritesActivity"/>
+        <activity android:name=".activity.PhotoActivity"/>
     </application>
 
 </manifest>

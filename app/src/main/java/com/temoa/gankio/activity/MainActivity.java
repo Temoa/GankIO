@@ -1,4 +1,4 @@
-package com.temoa.gankio;
+package com.temoa.gankio.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
+import com.temoa.gankio.Constants;
+import com.temoa.gankio.R;
 import com.temoa.gankio.adapter.ViewPagerAdapter;
 import com.temoa.gankio.bean.NewGankData;
 import com.temoa.gankio.network.BuildService;

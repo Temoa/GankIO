@@ -1,4 +1,4 @@
-package com.temoa.gankio.mvpFragment;
+package com.temoa.gankio.detailFragment;
 
 import com.temoa.gankio.bean.NewGankData.Results;
 

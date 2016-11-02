@@ -5,9 +5,11 @@
     <item
         android:id="@+id/menu_collect"
         android:title="@string/collect"
-        app:showAsAction="never"/>
+        android:icon="@drawable/ic_favorite_write_24"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_about"
         android:title="@string/about"
-        app:showAsAction="never"/>
+        android:icon="@drawable/ic_about_write_24"
+        app:showAsAction="ifRoom"/>
 </menu>

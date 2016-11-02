@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.temoa.gankio.CommonFragment;
+import com.temoa.gankio.detailFragment.DetailFragment;
 
 /**
  * Created by Temoa
@@ -21,7 +21,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new CommonFragment().getInstance(titleList[position]);
+        return new DetailFragment().getInstance(titleList[position]);
     }
 
     @Override

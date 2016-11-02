@@ -1,4 +1,4 @@
-package com.temoa.gankio;
+package com.temoa.gankio.detailFragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,10 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
+import com.temoa.gankio.R;
 import com.temoa.gankio.adapter.RecyclerAdapter;
 import com.temoa.gankio.bean.NewGankData;
-import com.temoa.gankio.mvpFragment.IView;
-import com.temoa.gankio.mvpFragment.Presenter;
 import com.temoa.gankio.tools.ToastUtils;
 
 import java.util.List;
@@ -26,12 +25,12 @@ import java.util.List;
  * Created by Temoa
  * on 2016/8/1 16:46
  */
-public class CommonFragment extends Fragment implements IView {
+public class DetailFragment extends Fragment implements DetailContract.View {
 
     private static final String BUNDLE_SAVE_KEY = "type";
 
     private Activity mContext;
-    private Presenter mPresenter;
+    private DetailContract.Presenter mPresenter;
 
     private RecyclerView mRecyclerView;
     private RecyclerAdapter mRecyclerAdapter;
@@ -40,7 +39,7 @@ public class CommonFragment extends Fragment implements IView {
     private int pageIndex = 2;
     private String type;
 
-    public CommonFragment getInstance(String type) {
+    public DetailFragment getInstance(String type) {
         this.type = type;
         return this;
     }
@@ -55,18 +54,19 @@ public class CommonFragment extends Fragment implements IView {
             type = savedInstanceState.getString(BUNDLE_SAVE_KEY);
 
         mContext = getActivity();
-        mPresenter = new Presenter(mContext, this);
+        mPresenter = new DetailPresenter(mContext, this);
 
         initRecycler();
         initSwipeLayout();
 
         if (type != null) {
-            mPresenter.onCreate(type);
+            mPresenter.start(type);
             mPresenter.getNewData(type);
         }
 
         return rootView;
     }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -85,7 +85,7 @@ public class CommonFragment extends Fragment implements IView {
             @Override
             public void onItemClick(View v, NewGankData.Results data, int position) {
                 Intent intent = new Intent();
-                intent.setAction("android.intent.action.VIEW");
+                intent.setAction(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(data.getUrl()));
                 startActivity(intent);
             }
@@ -130,9 +130,14 @@ public class CommonFragment extends Fragment implements IView {
     public void onDestroyView() {
         super.onDestroyView();
         if (mPresenter != null) {
-            mPresenter.onDestroy();
+            mPresenter.destroy();
             mPresenter = null;
         }
+    }
+
+    @Override
+    public void setPresenter(DetailContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 
     @Override

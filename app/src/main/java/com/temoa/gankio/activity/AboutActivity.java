@@ -1,4 +1,4 @@
-package com.temoa.gankio;
+package com.temoa.gankio.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+
+import com.temoa.gankio.Constants;
+import com.temoa.gankio.R;
 
 public class AboutActivity extends AppCompatActivity implements View.OnClickListener {
 

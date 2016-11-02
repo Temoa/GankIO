@@ -1,4 +1,4 @@
-package com.temoa.gankio;
+package com.temoa.gankio.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.temoa.gankio.R;
 
 public class PhotoActivity extends AppCompatActivity {
 
