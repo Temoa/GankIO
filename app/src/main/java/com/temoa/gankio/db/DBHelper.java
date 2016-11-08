@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
         this(context, DB_NAME, null, DB_VERSION);
     }
 
-    public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    private DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 

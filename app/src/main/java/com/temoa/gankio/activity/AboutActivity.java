@@ -56,7 +56,7 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
 
     private void openUrl(String uri) {
         Intent intent = new Intent();
-        intent.setAction("android.intent.action.VIEW");
+        intent.setAction(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(uri));
         startActivity(intent);
     }

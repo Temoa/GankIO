@@ -95,9 +95,14 @@ class DetailModel {
     void cancel() {
         if (mGetMoreData != null)
             mGetMoreData.unsubscribeOn(AndroidSchedulers.mainThread());
+
         if (mGetNewData != null)
             mGetNewData.unsubscribeOn(AndroidSchedulers.mainThread());
+
         if (mCache != null)
             mCache = null;
+
+        if (mContext != null)
+            mContext = null;
     }
 }
