@@ -2,6 +2,7 @@ package com.temoa.gankio.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import com.temoa.gankio.R;
 import com.temoa.gankio.adapter.ViewPagerAdapter;
 import com.temoa.gankio.bean.NewGankData;
 import com.temoa.gankio.network.BuildService;
+import com.temoa.gankio.tools.ToastUtils;
 
 import org.afinal.simplecache.ACache;
 
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private String mTargetUrl = Constants.Default_PIC;
     private ACache mCache;
 
-    private MaterialViewPager mMaterialViewPager;
+    private MaterialViewPager.Listener mMaterialPagerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +62,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        mMaterialViewPager = (MaterialViewPager) findViewById(R.id.main_material_pager);
-        Toolbar toolbar = mMaterialViewPager.getToolbar();
+        MaterialViewPager materialViewPager = (MaterialViewPager) findViewById(R.id.main_material_pager);
+
+        Toolbar toolbar = materialViewPager.getToolbar();
         if (toolbar != null) {
             toolbar.setTitle("");
             toolbar.setPopupTheme(R.style.AppBaseTheme_PopupOverlay);
@@ -71,19 +74,20 @@ public class MainActivity extends AppCompatActivity {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        mMaterialViewPager.getViewPager()
-                .setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), TITLE_LIST));
-        mMaterialViewPager.setMaterialViewPagerListener(
-                new MaterialViewPager.Listener() {
-                    @Override
-                    public HeaderDesign getHeaderDesign(int page) {
-                        mTargetUrl = beauty[page];
-                        return HeaderDesign.fromColorResAndUrl(R.color.colorPrimary, mTargetUrl);
-                    }
-                });
-        mMaterialViewPager.getViewPager()
-                .setOffscreenPageLimit(mMaterialViewPager.getViewPager().getAdapter().getCount());
-        mMaterialViewPager.getPagerTitleStrip().setViewPager(mMaterialViewPager.getViewPager());
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), TITLE_LIST);
+        materialViewPager.getViewPager().setAdapter(viewPagerAdapter);
+        mMaterialPagerListener = new MaterialViewPager.Listener() {
+            @Override
+            public HeaderDesign getHeaderDesign(int page) {
+                mTargetUrl = beauty[page];
+                return HeaderDesign.fromColorAndUrl(getResources().getColor(R.color.colorPrimary), mTargetUrl);
+            }
+        };
+        materialViewPager.setMaterialViewPagerListener(mMaterialPagerListener);
+
+        ViewPager pager = materialViewPager.getViewPager();
+        materialViewPager.getViewPager().setOffscreenPageLimit(pager.getAdapter().getCount());
+        materialViewPager.getPagerTitleStrip().setViewPager(pager);
 
         TextView headerText = (TextView) findViewById(R.id.main_logo);
         headerText.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                             if (mCache != null)
                                 mCache.put(Constants.TYPE_BEAUTY, data);
                         }
-                        mMaterialViewPager.onPageSelected(0);
+                        mMaterialPagerListener.getHeaderDesign(0);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -144,5 +148,17 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private long exitTime = 0;
+
+    @Override
+    public void onBackPressed() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            ToastUtils.show(this, "再次点击一次退出应用");
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+        }
     }
 }

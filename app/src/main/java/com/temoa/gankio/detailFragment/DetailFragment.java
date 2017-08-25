@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
+import com.temoa.gankio.BaseFragment;
 import com.temoa.gankio.R;
 import com.temoa.gankio.adapter.RecyclerAdapter;
 import com.temoa.gankio.bean.NewGankData;
@@ -25,10 +25,9 @@ import java.util.List;
  * Created by Temoa
  * on 2016/8/1 16:46
  */
-public class DetailFragment extends Fragment implements DetailContract.View {
+public class DetailFragment extends BaseFragment implements DetailContract.View {
 
     private static final String BUNDLE_SAVE_KEY = "type";
-
     private Activity mContext;
     private DetailContract.Presenter mPresenter;
 
@@ -46,7 +45,10 @@ public class DetailFragment extends Fragment implements DetailContract.View {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        }
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.fragment_recycler);
         mRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fragment_swipeLayout);
 
@@ -61,12 +63,19 @@ public class DetailFragment extends Fragment implements DetailContract.View {
 
         if (type != null) {
             mPresenter.start(type);
-            mPresenter.getNewData(type);
         }
 
         return rootView;
     }
 
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        super.onFragmentVisibleChange(isVisible);
+        if (isVisible) {
+            if (mPresenter != null && type != null)
+                mPresenter.getNewData(type);
+        }
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
