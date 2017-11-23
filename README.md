@@ -27,9 +27,5 @@
 * ~~[@Jude95](https://github.com/Jude95)的那句“Retrofit+OkHttp+RxJava配合框架打出成吨的输出”深入♂我心。可是RxJava还没有完全搞懂，项目中还未使用。~~
 * 还有很多的不足，欢迎指出，真心的，一个人撸代码非常的寂寞呀，欢迎交流学习呀。
 
-## 联系方式
-email：temoa_yui@163.com
-
-weibo：[Tem0a_](http://weibo.com/lailaizuiaiyiyi/profile?rightmod=1&wvr=6&mod=personinfo)
 
 欢迎交流学习
