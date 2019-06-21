@@ -1,10 +1,10 @@
-package com.temoa.gankio.adapter;
+package com.temoa.gankio.ui.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.temoa.gankio.detailFragment.DetailFragment;
+import com.temoa.gankio.ui.fragment.DetailFragment;
 
 /**
  * Created by Temoa

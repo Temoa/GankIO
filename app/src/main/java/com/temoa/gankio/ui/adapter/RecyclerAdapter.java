@@ -1,18 +1,19 @@
-package com.temoa.gankio.adapter;
+package com.temoa.gankio.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.temoa.gankio.Constants;
 import com.temoa.gankio.R;
 import com.temoa.gankio.bean.NewGankData;
-import com.temoa.gankio.Constants;
 
 import java.util.ArrayList;
 import java.util.List;

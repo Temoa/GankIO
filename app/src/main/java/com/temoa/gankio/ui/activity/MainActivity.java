@@ -1,29 +1,30 @@
-package com.temoa.gankio.activity;
+package com.temoa.gankio.ui.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.temoa.gankio.Constants;
 import com.temoa.gankio.R;
-import com.temoa.gankio.adapter.ViewPagerAdapter;
+import com.temoa.gankio.business.GankBus;
+import com.temoa.gankio.business.GankBusiness;
 import com.temoa.gankio.tools.ToastUtils;
-
-import org.afinal.simplecache.ACache;
+import com.temoa.gankio.ui.adapter.ViewPagerAdapter;
 
 
 public class MainActivity extends AppCompatActivity {
 
   private static final String[] TITLE_LIST = {Constants.TYPE_ANDROID, Constants.TYPE_IOS, Constants.TYPE_WEB};
-  private ACache mCache;
+  private GankBusiness mGankBusiness;
 
   private Drawable mAndroidDrawable;
   private Drawable miOSDrawable;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     initViews();
+    mGankBusiness = new GankBusiness();
+    mGankBusiness.init(this.getApplicationContext());
+    GankBus.registerRequestHandler(mGankBusiness);
   }
 
   private void initViews() {
@@ -89,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    if (mCache != null)
-      mCache = null;
+    GankBus.unregisterRequestHandler(mGankBusiness);
   }
 
   @Override

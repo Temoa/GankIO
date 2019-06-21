@@ -2,9 +2,9 @@ package com.temoa.gankio.network;
 
 import com.temoa.gankio.bean.NewGankData;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
 
 /**
  * Created by Temoa
@@ -12,13 +12,13 @@ import rx.Observable;
  */
 public interface GankApi {
 
-    @GET("{type}/{count}/{pageIndex}")
-    Observable<NewGankData> getNewData(
-            @Path("type") String type,
-            @Path("count") int count,
-            @Path("pageIndex") int pageIndex
-    );
+  @GET("{type}/{count}/{pageIndex}")
+  Observable<NewGankData> getNewData(
+      @Path("type") String type,
+      @Path("count") int count,
+      @Path("pageIndex") int pageIndex
+  );
 
-    @GET("福利/3/1")
-    Observable<NewGankData> getBeauty();
+  @GET("福利/3/1")
+  Observable<NewGankData> getBeauty();
 }
