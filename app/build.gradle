@@ -40,6 +40,5 @@ dependencies {
     implementation('com.github.florent37:materialviewpager:1.2.0@aar') {
         transitive = true
     }
-
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
 }

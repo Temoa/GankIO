@@ -24,7 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.AboutActivity" />
+        <activity
+            android:name=".ui.activity.AboutActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.AboutActivity" />
         <activity android:name=".ui.activity.FavoritesActivity" />
         <activity android:name=".ui.activity.PhotoActivity" />
     </application>

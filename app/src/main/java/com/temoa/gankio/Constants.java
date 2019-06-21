@@ -11,7 +11,6 @@ public class Constants {
     // 其他URL
     public static final String URL_GANK = "http://gank.io";
     public static final String URL_Github = "https://github.com/Temoa";
-    public static final String URL_Weibo = "http://weibo.com/234849001";
 
     // 分类
     public static final String TYPE_ANDROID = "Android";

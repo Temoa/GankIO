@@ -17,5 +17,11 @@
     </style>
 
     <!--toolbar menu theme-->
-    <style name="AppBaseTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppBaseTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.AboutActivity" parent="Theme.Mal.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 </resources>
