@@ -158,7 +158,6 @@ public class AboutActivity extends MaterialAboutActivity {
     openSources.add(new OpenSource("retrofit", "https://square.github.io/retrofit"));
     openSources.add(new OpenSource("RxJava", "https://github.com/ReactiveX/RxJava"));
     openSources.add(new OpenSource("RxAndroid", "https://github.com/ReactiveX/RxAndroid"));
-    openSources.add(new OpenSource("VIABUS-Architecture", "https://github.com/KunMinX/VIABUS-Architecture"));
     openSources.add(new OpenSource("MaterialViewPager", "https://github.com/florent37/MaterialViewPager"));
     openSources.add(new OpenSource("material-about-library", "https://github.com/daniel-stoneuk/material-about-library"));
     return openSources;
