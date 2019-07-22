@@ -3,10 +3,9 @@ package com.temoa.gankio.ui;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.temoa.gankio.tools.LogUtils;
 
 /**
  * Created by Temoa
@@ -15,42 +14,42 @@ import com.temoa.gankio.tools.LogUtils;
 
 public abstract class BaseFragment extends Fragment {
 
-    private boolean hasCreateView = false;
-    private boolean isFragmentVisible = false;
+  private boolean hasCreateView = false;
+  private boolean isFragmentVisible = false;
 
-    protected View rootView;
+  protected View rootView;
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
+  @Override
+  public void setUserVisibleHint(boolean isVisibleToUser) {
+    super.setUserVisibleHint(isVisibleToUser);
 
-        if (rootView == null) {
-            return;
-        }
-
-        hasCreateView = true;
-        if (isVisibleToUser) {
-            onFragmentVisibleChange(true);
-            isFragmentVisible = true;
-            return;
-        }
-
-        if (isFragmentVisible) {
-            onFragmentVisibleChange(false);
-            isFragmentVisible = false;
-        }
+    if (rootView == null) {
+      return;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (!hasCreateView && getUserVisibleHint()) {
-            onFragmentVisibleChange(true);
-            isFragmentVisible = true;
-        }
+    hasCreateView = true;
+    if (isVisibleToUser) {
+      onFragmentVisibleChange(true);
+      isFragmentVisible = true;
+      return;
     }
 
-    protected void onFragmentVisibleChange(boolean isVisible) {
-        LogUtils.d("BaseFragment", "onFragmentVisibleChange() called with: isVisible = [" + isVisible + "]");
+    if (isFragmentVisible) {
+      onFragmentVisibleChange(false);
+      isFragmentVisible = false;
     }
+  }
+
+  @Override
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    if (!hasCreateView && getUserVisibleHint()) {
+      onFragmentVisibleChange(true);
+      isFragmentVisible = true;
+    }
+  }
+
+  protected void onFragmentVisibleChange(boolean isVisible) {
+
+  }
 }

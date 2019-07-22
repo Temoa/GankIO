@@ -15,8 +15,6 @@ import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.temoa.gankio.Constants;
 import com.temoa.gankio.R;
-import com.temoa.gankio.business.GankBus;
-import com.temoa.gankio.business.GankBusiness;
 import com.temoa.gankio.tools.ToastUtils;
 import com.temoa.gankio.ui.adapter.ViewPagerAdapter;
 
@@ -24,7 +22,6 @@ import com.temoa.gankio.ui.adapter.ViewPagerAdapter;
 public class MainActivity extends AppCompatActivity {
 
   private static final String[] TITLE_LIST = {Constants.TYPE_ANDROID, Constants.TYPE_IOS, Constants.TYPE_WEB};
-  private GankBusiness mGankBusiness;
 
   private Drawable mAndroidDrawable;
   private Drawable miOSDrawable;
@@ -35,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     initViews();
-    mGankBusiness = new GankBusiness();
-    mGankBusiness.init(this.getApplicationContext());
-    GankBus.registerRequestHandler(mGankBusiness);
   }
 
   private void initViews() {
@@ -88,12 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
     if (mWebDrawable == null)
       mWebDrawable = ContextCompat.getDrawable(MainActivity.this, R.drawable.pic_mian_header_web);
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    GankBus.unregisterRequestHandler(mGankBusiness);
   }
 
   @Override

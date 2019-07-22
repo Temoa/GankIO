@@ -9,18 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
-import com.kunminx.core.bus.IResponse;
-import com.kunminx.core.bus.Result;
 import com.temoa.gankio.R;
 import com.temoa.gankio.bean.NewGankData;
-import com.temoa.gankio.business.GankBus;
 import com.temoa.gankio.business.GankConstant;
+import com.temoa.gankio.business.GankViewModel;
 import com.temoa.gankio.tools.ToastUtils;
 import com.temoa.gankio.ui.BaseFragment;
 import com.temoa.gankio.ui.adapter.RecyclerAdapter;
@@ -31,7 +31,7 @@ import java.util.List;
  * Created by Temoa
  * on 2016/8/1 16:46
  */
-public class DetailFragment extends BaseFragment implements IResponse {
+public class DetailFragment extends BaseFragment {
 
   private static final String BUNDLE_SAVE_KEY = "type";
   private Activity mContext;
@@ -39,6 +39,8 @@ public class DetailFragment extends BaseFragment implements IResponse {
   private RecyclerView mRecyclerView;
   private RecyclerAdapter mRecyclerAdapter;
   private SwipeRefreshLayout mRefreshLayout;
+
+  private GankViewModel mGankViewModel;
 
   private int pageIndex = 2;
   private String type;
@@ -60,11 +62,10 @@ public class DetailFragment extends BaseFragment implements IResponse {
     }
     mContext = getActivity();
 
+    loadViewModel();
+
     initRecycler();
     initSwipeLayout();
-
-    GankBus.registerResponseObserver(this);
-    if (type != null) GankBus.gank().getGank(type, GankConstant.FLAG_DATA_CACHE);
 
     return rootView;
   }
@@ -73,7 +74,7 @@ public class DetailFragment extends BaseFragment implements IResponse {
   protected void onFragmentVisibleChange(boolean isVisible) {
     super.onFragmentVisibleChange(isVisible);
     if (isVisible) {
-      if (type != null) GankBus.gank().getGank(type, GankConstant.FLAG_DATA_NEW);
+      if (type != null) mGankViewModel.getGank(type, GankConstant.FLAG_DATA_NEW);
     }
   }
 
@@ -82,6 +83,12 @@ public class DetailFragment extends BaseFragment implements IResponse {
     super.onSaveInstanceState(outState);
     if (type != null)
       outState.putString(BUNDLE_SAVE_KEY, type);
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    if (mRecyclerView != null) mRecyclerView.setAdapter(null);
   }
 
   private void initRecycler() {
@@ -111,59 +118,69 @@ public class DetailFragment extends BaseFragment implements IResponse {
     mRecyclerAdapter.addLoadMoreListener(new RecyclerAdapter.LoadMoreListener() {
       @Override
       public void onLoadMore() {
-        if (type != null) GankBus.gank().getMoreGank(type, pageIndex);
+        if (type != null) mGankViewModel.getMoreGank(type, pageIndex);
       }
     });
 
     mRecyclerView.setAdapter(mRecyclerAdapter);
   }
 
+  private void loadViewModel() {
+    mGankViewModel = ViewModelProviders.of(this).get(GankViewModel.class);
+    mGankViewModel.getGankData().observe(this, new Observer<List<NewGankData.Results>>() {
+      @Override
+      public void onChanged(List<NewGankData.Results> results) {
+        if (mRefreshLayout != null && mRefreshLayout.isRefreshing()) {
+          mRefreshLayout.setRefreshing(false);
+        }
+        if (results == null) {
+          ToastUtils.show(mContext, "请求失败");
+          return;
+        }
+        if (mRecyclerAdapter != null) {
+          mRecyclerAdapter.setNewData(results);
+        }
+        pageIndex = 2;
+      }
+    });
+
+    mGankViewModel.getMoreGankData().observe(this, new Observer<List<NewGankData.Results>>() {
+      @Override
+      public void onChanged(List<NewGankData.Results> results) {
+        if (mRefreshLayout != null && mRefreshLayout.isRefreshing()) {
+          mRefreshLayout.setRefreshing(false);
+        }
+        if (results == null) {
+          ToastUtils.show(mContext, "请求失败");
+          return;
+        }
+        if (mRecyclerAdapter != null) {
+          mRecyclerAdapter.addData(results);
+          pageIndex++;
+        }
+      }
+    });
+
+    mGankViewModel.getSaveDataResult().observe(this, new Observer<Boolean>() {
+      @Override
+      public void onChanged(Boolean aBoolean) {
+        ToastUtils.show(mContext, aBoolean ? getString(R.string.saved) : "失败");
+      }
+    });
+
+    if (type != null) mGankViewModel.getGank(type, GankConstant.FLAG_DATA_CACHE);
+  }
+
   private void initSwipeLayout() {
     mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
       public void onRefresh() {
-        if (type != null) GankBus.gank().getGank(type, GankConstant.FLAG_DATA_NEW);
+        if (type != null) mGankViewModel.getGank(type, GankConstant.FLAG_DATA_NEW);
       }
     });
   }
 
   private void saveFavDataToDB(NewGankData.Results data) {
-    if (type != null) GankBus.gank().saveGank2Db(type, data);
-  }
-
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    if (mRecyclerView != null) mRecyclerView.setAdapter(null);
-    GankBus.unregisterResponseObserver(this);
-  }
-
-  @Override
-  public void onResult(Result result) {
-    int resultCode = (int) result.getResultCode();
-    if (resultCode == GankConstant.RESULT_CODE_ERROR + getTypeHashCode(type)) {
-      ToastUtils.show(mContext, "请求失败");
-    } else if (resultCode == GankConstant.RESULT_CODE_GET_NEW_DATA + getTypeHashCode(type)) {
-      if (mRefreshLayout != null && mRefreshLayout.isRefreshing()) {
-        mRefreshLayout.setRefreshing(false);
-      }
-      if (mRecyclerAdapter != null) {
-        List<NewGankData.Results> results = (List<NewGankData.Results>) result.getResultObject();
-        mRecyclerAdapter.setNewData(results);
-      }
-    } else if (resultCode == GankConstant.RESULT_CODE_GET_MORE_DATA + getTypeHashCode(type)) {
-      if (mRecyclerAdapter != null) {
-        pageIndex++;
-        List<NewGankData.Results> results = (List<NewGankData.Results>) result.getResultObject();
-        mRecyclerAdapter.addData(results);
-      }
-    } else if (resultCode == GankConstant.RESULT_CODE_INSERT_FAV_DATA + getTypeHashCode(type)) {
-      boolean insertSuccess = (boolean) result.getResultObject();
-      ToastUtils.show(mContext, insertSuccess ? getString(R.string.saved) : "失败");
-    }
-  }
-
-  private int getTypeHashCode(String type) {
-    return type == null ? 0 : type.hashCode();
+    if (type != null) mGankViewModel.saveGank2Db(data);
   }
 }
