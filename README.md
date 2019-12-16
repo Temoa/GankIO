@@ -19,4 +19,6 @@
 * [MaterialViewPager](https://github.com/florent37/MaterialViewPager)
 * [material-about-library](https://github.com/daniel-stoneuk/material-about-library)
 
+[![Actions Status](https://github.com/Temoa/GankIO/workflows/Android_CI/badge.svg)](https://github.com/Temoa/GankIO/actions)
+
 欢迎交流学习
