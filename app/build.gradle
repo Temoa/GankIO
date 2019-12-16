@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -45,7 +47,14 @@ dependencies {
     }
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
 
-    def lifecycle_version = "2.0.0"
+    def lifecycle_version = "2.1.0"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+    implementation "androidx.core:core-ktx:1.1.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
