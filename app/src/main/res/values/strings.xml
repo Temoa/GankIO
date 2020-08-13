@@ -1,19 +1,19 @@
 <resources>
-    <string name="app_name">GankIO</string>
-    <string name="welcome_iv">欢迎图片</string>
-    <string name="portrait">头像</string>
-    <string name="type">类别</string>
+    <string name="app_name" translatable="false">GankIO</string>
     <string name="delete">删除</string>
     <string name="collect">收藏</string>
     <string name="about">关于</string>
-    <string name="save">保存</string>
-
-    <string name="my_name">Temoa</string>
-    <string name="my_crafted">Crafted with ❤</string>
-
-    <string name="gank">Gank</string>
-    <string name="about_gank_io">gank.io</string>
-    <string name="gank_io_introduce">每日分享妹子图和技术干货，还有供大家中午休息的休闲视频</string>
+    <string name="exit">再次点击一次退出应用</string>
     <string name="saved">已收藏</string>
-    <string name="about_me">关于我</string>
+
+    <string name="my_name" translatable="false">Temoa</string>
+    <string name="my_crafted">Crafted with ❤</string>
+    <string name="gank" translatable="false">Gank</string>
+    <string name="gank_io_introduce">每日分享妹子图和技术干货，还有供大家中午休息的休闲视频</string>
+    <string name="about_gank_io" translatable="false">gank.io</string>
+    <string name="about_app_version">应用版本</string>
+    <string name="about_update_date_title">历史的车轮滚滚向前</string>
+    <string name="about_open_source_title">离不开开源的帮助</string>
+    <string name="about_open_picture_title">标题图源</string>
+    <string name="about_update_date_unknown">我也不知道滚去哪里了U+1F603</string>
 </resources>

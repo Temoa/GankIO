@@ -10,8 +10,9 @@ import androidx.core.content.ContextCompat
 import com.github.florent37.materialviewpager.MaterialViewPager
 import com.github.florent37.materialviewpager.header.HeaderDesign
 import com.temoa.gankio.Constants
+import com.temoa.gankio.Ext.toast
 import com.temoa.gankio.R
-import com.temoa.gankio.tools.ToastUtils.show
+import com.temoa.gankio.databinding.ActivityMainBinding
 import com.temoa.gankio.ui.adapter.ViewPagerAdapter
 
 class MainActivity : AppCompatActivity() {
@@ -20,15 +21,17 @@ class MainActivity : AppCompatActivity() {
   private var miOSDrawable: Drawable? = null
   private var mWebDrawable: Drawable? = null
 
+  private lateinit var viewBinding: ActivityMainBinding
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+    viewBinding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(viewBinding.root)
     initViews()
   }
 
   private fun initViews() {
-    val materialViewPager = findViewById<MaterialViewPager>(R.id.main_material_pager)
-    val toolbar = materialViewPager.toolbar
+    val toolbar = viewBinding.mainMaterialPager.toolbar
     if (toolbar != null) {
       toolbar.title = ""
       toolbar.popupTheme = R.style.AppBaseTheme_PopupOverlay
@@ -37,7 +40,7 @@ class MainActivity : AppCompatActivity() {
       if (supportActionBar != null) supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
     val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager, TITLE_LIST)
-    materialViewPager.viewPager.adapter = viewPagerAdapter
+    viewBinding.mainMaterialPager.viewPager.adapter = viewPagerAdapter
     val materialPagerListener = MaterialViewPager.Listener { page ->
       headerPicture
       when (page) {
@@ -47,10 +50,10 @@ class MainActivity : AppCompatActivity() {
         else -> HeaderDesign.fromColorAndDrawable(ContextCompat.getColor(this@MainActivity, R.color.colorPrimary), mAndroidDrawable)
       }
     }
-    materialViewPager.setMaterialViewPagerListener(materialPagerListener)
-    val pager = materialViewPager.viewPager
-    materialViewPager.viewPager.offscreenPageLimit = 3
-    materialViewPager.pagerTitleStrip.setViewPager(pager)
+    viewBinding.mainMaterialPager.setMaterialViewPagerListener(materialPagerListener)
+    val pager = viewBinding.mainMaterialPager.viewPager
+    viewBinding.mainMaterialPager.viewPager.offscreenPageLimit = 3
+    viewBinding.mainMaterialPager.pagerTitleStrip.setViewPager(pager)
   }
 
   private val headerPicture: Unit
@@ -76,7 +79,7 @@ class MainActivity : AppCompatActivity() {
   private var exitTime: Long = 0
   override fun onBackPressed() {
     if (System.currentTimeMillis() - exitTime > 2000) {
-      show(this, "再次点击一次退出应用")
+      toast(R.string.exit)
       exitTime = System.currentTimeMillis()
     } else {
       finish()

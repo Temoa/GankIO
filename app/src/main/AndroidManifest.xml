@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
@@ -28,6 +29,5 @@
             android:name=".ui.activity.AboutActivity"
             android:theme="@style/AppTheme.AboutActivity" />
         <activity android:name=".ui.activity.FavoritesActivity" />
-        <activity android:name=".ui.activity.PhotoActivity" />
     </application>
 </manifest>

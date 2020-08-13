@@ -11,6 +11,7 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutList
 import com.temoa.gankio.Constants
 import com.temoa.gankio.R
 import okhttp3.*
+import org.koin.android.ext.android.inject
 import java.io.IOException
 import java.util.*
 import java.util.regex.Pattern
@@ -18,6 +19,8 @@ import java.util.regex.Pattern
 class AboutActivity : MaterialAboutActivity() {
 
   private var mGankUpdateItem: MaterialAboutActionItem? = null
+
+  private val client: OkHttpClient by inject()
 
   override fun getMaterialAboutList(context: Context): MaterialAboutList {
     val builder1 = MaterialAboutCard.Builder()
@@ -28,15 +31,16 @@ class AboutActivity : MaterialAboutActivity() {
         .build())
     builder1.addItem(MaterialAboutActionItem.Builder()
         .icon(R.drawable.ic_about_black_24)
-        .text("应用版本")
+        .text(R.string.about_app_version)
         .subText(appVersionName)
         .build())
     builder1.addItem(MaterialAboutActionItem.Builder()
         .icon(R.drawable.ic_about_black_24)
-        .text("历史的车轮滚滚向前")
+        .text(R.string.about_update_date_title)
         .subText("")
         .build().also { mGankUpdateItem = it })
     gankNewDataDate
+
     val builder2 = MaterialAboutCard.Builder()
     builder2.addItem(MaterialAboutTitleItem.Builder()
         .icon(R.drawable.me)
@@ -50,10 +54,11 @@ class AboutActivity : MaterialAboutActivity() {
         .setOnClickAction { openUrl(Constants.URL_Github) }
         .build())
     val builder3 = MaterialAboutCard.Builder()
-    builder3.title("离不开开源的帮助")
+    builder3.title(R.string.about_open_source_title)
     getOpenSourceItems(setOpenSources(), builder3)
+
     val builder4 = MaterialAboutCard.Builder()
-    builder4.title("标题图源")
+    builder4.title(R.string.about_open_picture_title)
     builder4.addItem(MaterialAboutActionItem.Builder()
         .icon(R.drawable.unsplash)
         .text("Android")
@@ -69,6 +74,7 @@ class AboutActivity : MaterialAboutActivity() {
         .text("Web")
         .subText("Photo by Sai Kiran Anagani on Unsplash")
         .build())
+
     return MaterialAboutList.Builder()
         .addCard(builder1.build())
         .addCard(builder2.build())
@@ -97,13 +103,12 @@ class AboutActivity : MaterialAboutActivity() {
 
   private val gankNewDataDate: Unit
     get() {
-      val okHttpClient = OkHttpClient()
-      val request = Request.Builder().url("http://gank.io/history").build()
-      okHttpClient.newCall(request).enqueue(object : Callback {
-        override fun onFailure(call: Call, e: IOException) { // to do nothings
+      val request = Request.Builder().url(Constants.URL_GANK_HISTORY).build()
+      client.newCall(request).enqueue(object : Callback {
+        override fun onFailure(call: Call, e: IOException) {
+          // to do nothings
         }
 
-        @Throws(IOException::class)
         override fun onResponse(call: Call, response: Response) {
           if (response.isSuccessful && response.body() != null) {
             matches(response.body()!!.string())
@@ -119,8 +124,10 @@ class AboutActivity : MaterialAboutActivity() {
     val m = r.matcher(source)
     if (m.find()) {
       mGankUpdateItem!!.subText = m.group(1)
-      refreshMaterialAboutList()
+    } else {
+      mGankUpdateItem!!.subText = getString(R.string.about_update_date_unknown)
     }
+    refreshMaterialAboutList()
   }
 
   private fun setOpenSources(): List<OpenSource> {

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
-    android:id="@+id/main_logo"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_logo"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/materialviewpager_logoHeight"
-    android:text="@string/gank"
-    android:textColor="@android:color/white"
     android:textSize="30sp"
-    android:typeface="monospace"/>
+    tools:viewBindingIgnore="true"
+    android:typeface="monospace"
+    android:textColor="@android:color/white"
+    android:text="@string/gank" />
